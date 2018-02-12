@@ -119,14 +119,37 @@ for i = 1: rangeUpper %choose initial values from -2 to 2
               ynew = -rnew * sin(theta/2);
            end
        end
-       plot(xnew, ynew, '.');
-    end
-    
+       plot(xnew, ynew, '.k'); %plotting!
+    end   
 end
-
 end
 
 \end{lstlisting}
 
-
+\textbf{Running results}: (My computer froze whenever I tried to get a more precise graph :p)\\
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{part3func1.eps}
+    \caption{$c = 0$}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{part3func2.eps}
+    \caption{$c = -0.36 +  0.1i$}
+  \end{minipage}
+   \end{figure}
+   
+   \begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{part3func3.eps}
+    \caption{$c = -0.123 - 0.745i$}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{part3func4.eps}
+    \caption{$c = -1i$}
+  \end{minipage}
+   \end{figure}
 \end{document}  
