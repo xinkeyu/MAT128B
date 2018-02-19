@@ -78,17 +78,19 @@ Keep applying these two iterations ($x_n$ generates the real part and $y_n$ gene
 \begin{lstlisting}
 function [] = constructJuliaSet(x,y)
 %construct the Julia set for c = x+iy
-numofIt = 100; %number of iterations
-rangeUpper = 41; %determines the number of z_n's
+numofIt = 200; %number of iterations
+rangeUpper = 541; %determines the number of z_n's
 increment = 4/(rangeUpper-1);
 c = x+1i*y;
 
-figure %for plotting
-hold on
+plotvecx = zeros(1,rangeUpper^2);%vectors that store the points
+plotvecy = zeros(1,rangeUpper^2);
+
+index = 1;
 for i = 1: rangeUpper %choose initial values from -2 to 2
-    x_co = -2 + (rangeUpper-1)*increment; %real part
+    x_co = -2 + (rangeUpper-1)*increment;%real part
     for j = 1: rangeUpper 
-       y_co = -2 + (rangeUpper-1)*increment; %imaginary part 
+       y_co = -2 + (rangeUpper-1)*increment;%imaginary part 
        rnew = sqrt(sqrt((x_co-x)^2+(y_co-y)^2));
        theta = atan((y_co-y)/(x_co-x));
        if(x_co-x)<0
@@ -102,7 +104,7 @@ for i = 1: rangeUpper %choose initial values from -2 to 2
            k = k + 1;
            randNum = round(rand()); %random number that determines which branch to pursue
            if (randNum == 1)%positive branch
-              rnew = sqrt(sqrt((xnew-x)^2+(ynew-y)^2)); %values for the next iteration
+              rnew = sqrt(sqrt((xnew-x)^2+(ynew-y)^2));
               theta = atan((ynew-y)/(xnew-x));
               if(xnew-x)<0
                 theta = theta + pi;
@@ -110,23 +112,28 @@ for i = 1: rangeUpper %choose initial values from -2 to 2
               xnew = rnew * cos(theta/2);
               ynew = rnew * sin(theta/2);
            else %randNum == 0, negative branch
-              rnew = sqrt(sqrt((xnew-x)^2+(ynew-y)^2)); %essentially the same as above, just negate final value
+              rnew = sqrt(sqrt((xnew-x)^2+(ynew-y)^2));
               theta = atan((ynew-y)/(xnew-x));
               if(xnew-x)<0
                 theta = theta + pi;
               end
+              
               xnew = -rnew * cos(theta/2);
               ynew = -rnew * sin(theta/2);
            end
        end
-       plot(xnew, ynew, '.k'); %plotting!
-    end   
+
+       plotvecx(index)= xnew;%store points in vector
+       plotvecy(index)= ynew;
+       index = index+1;
+    end
+    
 end
-end
+
 
 \end{lstlisting}
 
-\textbf{Running results}: (My computer froze whenever I tried to get a more precise graph :p)\\
+\textbf{Running results}: \\
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.45\textwidth}
@@ -136,7 +143,7 @@ end
   \hfill
   \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{part3func2.eps}
-    \caption{$c = -0.36 +  0.1i$}
+    \caption{$c = 0.36 +  0.1i$}
   \end{minipage}
    \end{figure}
    
@@ -152,4 +159,59 @@ end
     \caption{$c = -1i$}
   \end{minipage}
    \end{figure}
+   
+\section{Computing the Fractal Dimension}
+Fractal dimension is a way of quantifying the level of self-similarity of a pattern. It is computed as the ratio of the number of self-similar copies to the measuring scale. The more complex the pattern is, the larger its fractal dimension would be.
+
+\section{Connectivity of the Julia Set}
+A Julia set is connected if its orbit(0) is bounded. \\
+To compute orbit(0), just apply the iteration method with $z_0 = 0$ and store the sequence $(z_i)$.\\
+\textbf{MATLAB Code:}
+\begin{lstlisting}
+function [vec, connected] = orbit(x,y)
+%vec: the orbit of 0 for phi(x) = x^2 + (x+iy)
+%connected : 0 if not connected, 1 if connected
+z = x + 1i*y;
+count = 1;
+connected = 0;
+
+while abs(z) < 100
+   vec(count) = z;
+   z = z^2 + x + 1i *y;
+   if (count > 500) %after 500 iterations, still not diverge
+       connected = 1;
+       break;
+   end
+end
+end
+\end{lstlisting}
+
+\section{Coloring divergent orbits}
+Similar to part5, but this time return the color (determined by the number of iterations) for divergent orbits.\\
+\textbf{MATLAB Code:}\\
+\begin{lstlisting}
+function [color] = color(x,y)
+%returns the RGB triplet for divergent orbit
+%if convergent, black
+z = x + 1i*y;
+count = 1;
+
+while abs(z) < 100
+
+   count = count+1;
+   z = z^2 + x + 1i *y;
+   if (count >= 100) %after 100 iterations, still not diverge
+       color = [0 0 0];
+       return;
+   end
+end
+
+if(count <= 8) %most time count is less than 8
+   color = [0 0 0.1*count];
+else 
+   color = [0 0 0.1*(8+(2/92)*(count-8))]
+end
+
+end
+\end{lstlisting}
 \end{document}  
