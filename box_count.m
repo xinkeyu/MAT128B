@@ -53,8 +53,6 @@ function D = box_count( IMG )
         num_boxes = num_boxes * 2;
         dim = dim / 2;
     end
-    N
-    invr
     plot(log(invr),log(N));
     D = polyfit(log(invr), log(N), 1);
     D = D(1); %get the slope

@@ -1,9 +1,9 @@
-function D = box_count( IMG )
+function D = dbc( IMG )
     %dim of image matrix
     dim = max(size(IMG));
     mymax = dim;
     %in order to divide by half, want the size be 2^n
-    dim = 2^ceil(log2(dim))
+    dim = 2^ceil(log2(dim));
     %padding the matrix to square
     rowPad = dim - size(IMG, 1);
     colPad = dim - size(IMG, 2);
@@ -20,11 +20,8 @@ function D = box_count( IMG )
     L(expo+1) = 0;
     K(expo+1) = 0;
     while dim >= 1
-       
         G(expo+1) = 0;
         N(expo+1) = 0; %initialize count
-       
-        
         for box_row = 1:num_boxes
             for box_col = 1:num_boxes
                 row_start = (box_row - 1) * dim + 1;
@@ -70,18 +67,13 @@ function D = box_count( IMG )
                 
             end %end inner counting row of boxes loop
         end %end outer counting row of boxes loop
-        
-        % 2^expo = magnitude
-        
+
         expo = expo + 1;
-        G(expo) = L(expo) - K(expo) + 1;
-        
-        invr(expo) = mymax/dim;
-        
+        G(expo) = L(expo) - K(expo) + 1;     
+        invr(expo) = mymax/dim;    
         num_boxes = num_boxes * 2;
         dim = dim / 2;
     end
-
     plot(log(invr),log(N))
     D = polyfit(log(invr), log(N),1);
     D = D(1); %get the slope
