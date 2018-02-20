@@ -25,7 +25,6 @@ function D = box_count( IMG )
                 col_end = box_col * dim;
                 %i,e, 1~256,257~512,513~768, 769~1024
                 contain_pixel = false;
-                
                 for row = row_start:row_end
                     for col = col_start:col_end
                         if IMG(row, col)%only consider the boxes with pixels
