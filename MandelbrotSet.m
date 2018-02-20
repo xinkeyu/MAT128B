@@ -27,13 +27,12 @@ for i = 1:iteration
     end
     
 end
+    figure(1);
     image([-2, 1],[-1.5,1.5],M);
-    axis xy
-	image([-2, 1],[-1.5,1.5],M)
 	set(gca,'XTick',[]) % Remove the ticks in the x axis!
 	set(gca,'YTick',[]) % Remove the ticks in the y axis
-	set(gca,'Position',[0 0 1 1]) % Make the axes occupy the hole figure
-	saveas(gcf,'mand','png')% generate png for dimension use
+	%set(gca,'Position',[0 0 1 1]) % Make the axes occupy the hole figure
+	saveas(gcf,'mand','jpg');% generate png for dimension use
     
 end
 
