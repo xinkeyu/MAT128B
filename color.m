@@ -2,7 +2,7 @@ function [] = color( phi)
 %phi is function handler,i.e., phi = @(z) z^3+1
 %returns the RGB triplet for divergent orbit
 %if convergent, black
-colormap(autumn(5))
+colormap(autumn(5));
 count = 1;
 
 M = zeros(200);
@@ -22,6 +22,7 @@ for x = 1:200
 
     end
 end
+figure
 image(M)
 
 end
