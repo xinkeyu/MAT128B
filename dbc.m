@@ -74,7 +74,8 @@ function D = dbc( IMG )
         num_boxes = num_boxes * 2;
         dim = dim / 2;
     end
-    plot(log(invr),log(N))
+     vpa([1./invr',N'])
+    plot(log(invr),log(N));
     D = polyfit(log(invr), log(N),1);
     D = D(1); %get the slope
 end

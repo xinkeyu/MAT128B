@@ -55,5 +55,6 @@ end
 
 figure %plotting!
 plot(plotvecx, plotvecy, '.k')
+axis off
 end
 

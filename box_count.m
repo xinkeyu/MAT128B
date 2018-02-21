@@ -1,6 +1,6 @@
 function D = box_count( IMG )
     %dim of image matrix
-    dim = max(size(IMG));
+    dim = size(IMG,2);
     %in order to divide by half, want the size be 2^n
     dim = 2^ceil(log2(dim));
     %padding the matrix to square
@@ -52,6 +52,8 @@ function D = box_count( IMG )
         num_boxes = num_boxes * 2;
         dim = dim / 2;
     end
+    vpa([1./invr',N'])
+    
     plot(log(invr),log(N));
     D = polyfit(log(invr), log(N), 1);
     D = D(1); %get the slope
